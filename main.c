@@ -76,10 +76,34 @@ void quickSort(int arr[],int start,int end){
     quickSort(arr,left + 1,end);
 }
 
+void dualPivotQuickSort(int arr[],int start,int end){
+    if(start >= end) return;
+    if(arr[start] > arr[end])
+        swap(&arr[start],&arr[end]);
+    int pivot1 = arr[start],pivot2 = arr[end];
+    int left = start,right = end,mid = left + 1;
+    while (mid < right){
+        if(arr[mid] <= pivot1)
+            swap(&arr[++left],&arr[mid++]);
+        else if(arr[mid] <= pivot2){
+            mid++;
+        } else{
+            while(arr[--right] > pivot2 && right > mid);
+            if(mid>=right) break;
+            swap(&arr[mid],&arr[right]);
+        }
+    }
+    swap(&arr[start],&arr[left]);
+    swap(&arr[end],&arr[right]);
+    dualPivotQuickSort(arr,start,left - 1);
+    dualPivotQuickSort(arr,left + 1,right - 1);
+    dualPivotQuickSort(arr,right + 1,end);
+}
+
 int main(){
     int arr[] = {3,5,7,2,9,0,6,1,8,4};
 
-    quickSort(arr,0,9);
+    dualPivotQuickSort(arr,0,9);
 
     for(int i = 0; i< 10; ++i){
         printf("%d ",arr[i]);
