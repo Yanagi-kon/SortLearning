@@ -164,11 +164,25 @@ void mergeSort(int arr[], int tmp[], int start, int end){   //要进行归并排
     //上面完事之后，左边和右边都是有序状态了，此时再对整个范围进行一次归并排序即可
 }
 
+//用于检测 猴子排序 是否排完
+_Bool checkOrder (int arr[],int size){
+    for (int i = 0; i < size - 1; ++i) {
+        if(arr[i] > arr[i+1]) return 0;
+    }
+    return 1;
+}
+
 int main(){
     int arr[] = {3,5,7,2,9,0,6,1,8,4};
-    int tmp[10];
 
-    mergeSort(arr,tmp,0,9);
+    int counter = 0,size = 10;
+    while (1){
+        int a = rand() % size, b = rand() % size;
+        swap(&arr[a],&arr[b]);
+        if(checkOrder(arr,size)) break;
+        counter++;
+    }
+    printf("在第 %d 次排序完成！",counter);
 
     for(int i = 0; i< 10; ++i){
         printf("%d ",arr[i]);
